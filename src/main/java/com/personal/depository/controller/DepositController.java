@@ -33,10 +33,10 @@ public class DepositController {
 	@PostMapping("/add")
 	public ResponseEntity<Deposit> addDeposit(@RequestBody DepositDTO depositDTO)
 			throws DepositoryException, ParseException {
-		
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName();
-		
+
 		Deposit depositSaved = depositService.addDeposit(depositDTO, username);
 		return new ResponseEntity<Deposit>(depositSaved, HttpStatus.CREATED);
 	}
@@ -59,13 +59,23 @@ public class DepositController {
 		return new ResponseEntity<List<Deposit>>(depositsList, HttpStatus.OK);
 	}
 
-	@GetMapping("/summary")
-	public ResponseEntity<Map<String, Map<String, Float>>> fetchSummary() throws DepositoryException {
+	@GetMapping("/summary/bank")
+	public ResponseEntity<Map<String, Map<String, Float>>> fetchSummaryByBank() throws DepositoryException {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName();
 
-		Map<String, Map<String, Float>> summaryReport = depositService.fetchSummary(username);
+		Map<String, Map<String, Float>> summaryReport = depositService.fetchSummaryByBank(username);
+		return new ResponseEntity<Map<String, Map<String, Float>>>(summaryReport, HttpStatus.OK);
+	}
+
+	@GetMapping("/summary/nominee")
+	public ResponseEntity<Map<String, Map<String, Float>>> fetchSummaryByNominee() throws DepositoryException {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+
+		Map<String, Map<String, Float>> summaryReport = depositService.fetchSummaryByNominee(username);
 		return new ResponseEntity<Map<String, Map<String, Float>>>(summaryReport, HttpStatus.OK);
 	}
 

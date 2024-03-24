@@ -120,7 +120,7 @@ public class DepositService {
 		return depositList;
 	}
 
-	public Map<String, Map<String, Float>> fetchSummary(String username) throws DepositoryException {
+	public Map<String, Map<String, Float>> fetchSummaryByBank(String username) throws DepositoryException {
 		User user = userRepository.findByUsername(username);
 		List<Deposit> depositList = new ArrayList<>();
 		depositList = depositRepository.findAllByUserId(user.getId());
@@ -144,6 +144,49 @@ public class DepositService {
 			localBankReport.put("Maturity Value", localBankReport.get("Maturity Value") + deposit.getMaturityValue());
 
 			summaryReport.put(deposit.getBank().getBankName(), localBankReport);
+
+			System.out.println(summaryReport);
+		});
+
+		Float totalDepositValue = 0F;
+		Float totalMaturityValue = 0F;
+
+		for (Map.Entry<String, Map<String, Float>> entry : summaryReport.entrySet()) {
+			totalDepositValue += entry.getValue().get("Deposit Value");
+			totalMaturityValue += entry.getValue().get("Maturity Value");
+		}
+		Map<String, Float> totalReport = new HashMap<>();
+		totalReport.put("Deposit Value", totalDepositValue);
+		totalReport.put("Maturity Value", totalMaturityValue);
+		summaryReport.put("Total Summary", totalReport);
+
+		return summaryReport;
+	}
+
+	public Map<String, Map<String, Float>> fetchSummaryByNominee(String username) throws DepositoryException {
+		User user = userRepository.findByUsername(username);
+		List<Deposit> depositList = new ArrayList<>();
+		depositList = depositRepository.findAllByUserId(user.getId());
+
+		if (depositList.isEmpty())
+			throw new DepositoryException("No Deposits found..!!");
+
+		Map<String, Map<String, Float>> summaryReport = new HashMap<>();
+		Map<String, Float> bankReport = new HashMap<>();
+
+		bankReport.put("Deposit Value", 0F);
+		bankReport.put("Maturity Value", 0F);
+		depositList.forEach((deposit) -> {
+
+			summaryReport.putIfAbsent(deposit.getNominee().getName(), new HashMap<>());
+			System.out.println(summaryReport);
+			Map<String, Float> localBankReport = summaryReport.get(deposit.getNominee().getName());
+			localBankReport.putIfAbsent("Deposit Value", 0F);
+			localBankReport.put("Deposit Value", localBankReport.get("Deposit Value") + deposit.getDepositValue());
+			localBankReport.putIfAbsent("Maturity Value", 0F);
+			localBankReport.put("Maturity Value", localBankReport.get("Maturity Value") + deposit.getMaturityValue());
+
+			summaryReport.put(deposit.getNominee().getName(), localBankReport);
 
 			System.out.println(summaryReport);
 		});
