@@ -9,22 +9,20 @@ public class DepositDTO {
 	private Float depositValue;
 	private String maturityOn;
 	private Float maturityValue;
-	private Integer userId;
 	private Integer bankId;
 	private Integer nomineeId;
 
 	public DepositDTO() {
 	}
 
-	public DepositDTO(String depositNumber, String depositedOn, Float depositValue, String maturityOn, Float maturityValue,
-			Integer userId, Integer bankId, Integer nomineeId) {
+	public DepositDTO(String depositNumber, String depositedOn, Float depositValue, String maturityOn,
+			Float maturityValue, Integer bankId, Integer nomineeId) {
 		super();
 		this.depositNumber = depositNumber;
 		this.depositedOn = depositedOn;
 		this.depositValue = depositValue;
 		this.maturityOn = maturityOn;
 		this.maturityValue = maturityValue;
-		this.userId = userId;
 		this.bankId = bankId;
 		this.nomineeId = nomineeId;
 	}
@@ -69,14 +67,6 @@ public class DepositDTO {
 		this.maturityValue = maturityValue;
 	}
 
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
 	public Integer getBankId() {
 		return bankId;
 	}
@@ -95,8 +85,7 @@ public class DepositDTO {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bankId, depositNumber, depositValue, depositedOn, maturityOn, maturityValue, nomineeId,
-				userId);
+		return Objects.hash(bankId, depositNumber, depositValue, depositedOn, maturityOn, maturityValue, nomineeId);
 	}
 
 	@Override
@@ -111,14 +100,16 @@ public class DepositDTO {
 		return Objects.equals(bankId, other.bankId) && Objects.equals(depositNumber, other.depositNumber)
 				&& Objects.equals(depositValue, other.depositValue) && Objects.equals(depositedOn, other.depositedOn)
 				&& Objects.equals(maturityOn, other.maturityOn) && Objects.equals(maturityValue, other.maturityValue)
-				&& Objects.equals(nomineeId, other.nomineeId) && Objects.equals(userId, other.userId);
+				&& Objects.equals(nomineeId, other.nomineeId);
 	}
 
 	@Override
 	public String toString() {
 		return "DepositDTO [depositNumber=" + depositNumber + ", depositedOn=" + depositedOn + ", depositValue="
-				+ depositValue + ", maturityOn=" + maturityOn + ", maturityValue=" + maturityValue + ", userId="
-				+ userId + ", bankId=" + bankId + ", nomineeId=" + nomineeId + "]";
+				+ depositValue + ", maturityOn=" + maturityOn + ", maturityValue=" + maturityValue + ", bankId="
+				+ bankId + ", nomineeId=" + nomineeId + "]";
 	}
+
+	
 
 }

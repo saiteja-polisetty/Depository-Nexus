@@ -13,24 +13,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.personal.depository.dto.BankDTO;
 import com.personal.depository.entity.Bank;
+import com.personal.depository.exception.DepositoryException;
 import com.personal.depository.service.BankService;
 
 @RestController
 @RequestMapping("/bank")
 public class BankController {
-	
+
 	@Autowired
 	private BankService bankService;
-	
+
 	@PostMapping("/add")
-	public ResponseEntity<Bank> saveBank(@RequestBody BankDTO bankDTO){
+	public ResponseEntity<Bank> saveBank(@RequestBody BankDTO bankDTO) {
 		Bank bank = bankService.saveBank(bankDTO);
-		
+
 		return new ResponseEntity<Bank>(bank, HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<List<Bank>> getAllBanks(){
+	public ResponseEntity<List<Bank>> getAllBanks() throws DepositoryException {
 		List<Bank> banks = bankService.getAllBanks();
 		return new ResponseEntity<List<Bank>>(banks, HttpStatus.OK);
 	}

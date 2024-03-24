@@ -22,43 +22,39 @@ public class NomineeService {
 	@Autowired
 	public NomineeRepository nomineeRepository;
 
-	public Nominee saveNominee(NomineeDTO nomineeDTO) {
-		Optional<User> user = userRepository.findById(nomineeDTO.getUserId());
+	public Nominee saveNominee(NomineeDTO nomineeDTO, String username) {
+		User user = userRepository.findByUsername(username);
 
 		Nominee nominee = new Nominee();
 		nominee.setName(nomineeDTO.getName());
 		nominee.setAge(nomineeDTO.getAge());
 		nominee.setRelationship(nomineeDTO.getRelationship());
 
-		if (user.isPresent()) {
-			nominee.setUser(user.get());
-		}
+		nominee.setUser(user);
 
 		return nomineeRepository.save(nominee);
 	}
 
-	public List<Nominee> getNomineesForUser(Integer userId) throws DepositoryException {
-		
-		Optional<User> user = userRepository.findById(userId);
-		if(!user.isPresent())
-			throw new DepositoryException("Invalid userId passed..!!");
-		
-		List<Nominee> nomineesList =  nomineeRepository.findAllByUserId(userId);
-		
-		if(nomineesList.isEmpty())
+	public List<Nominee> getNomineesForUser(String username) throws DepositoryException {
+
+		User user = userRepository.findByUsername(username);
+
+		List<Nominee> nomineesList = nomineeRepository.findAllByUserId(user.getId());
+
+		if (nomineesList.isEmpty())
 			throw new DepositoryException("No Nominees added by User so far..!!");
-		
+
 		return nomineesList;
 	}
 
 	public void deleteNominee(Integer nomineeId) throws DepositoryException {
-		
+
 		Optional<Nominee> nominee = nomineeRepository.findById(nomineeId);
-		if(!nominee.isPresent())
+		if (!nominee.isPresent())
 			throw new DepositoryException("Invalid NomineeId passed..!!");
-		
+
 		nomineeRepository.deleteById(nomineeId);
-		
+
 	}
 
 }

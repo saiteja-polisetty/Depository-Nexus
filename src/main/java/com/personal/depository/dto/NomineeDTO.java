@@ -7,16 +7,15 @@ public class NomineeDTO {
 	private String name;
 	private Integer age;
 	private String relationship;
-	private Integer userId;
-	
-	public NomineeDTO() {}
 
-	public NomineeDTO(String name, Integer age, String relationship, Integer userId) {
+	public NomineeDTO() {
+	}
+
+	public NomineeDTO(String name, Integer age, String relationship) {
 		super();
 		this.name = name;
 		this.age = age;
 		this.relationship = relationship;
-		this.userId = userId;
 	}
 
 	public String getName() {
@@ -43,17 +42,9 @@ public class NomineeDTO {
 		this.relationship = relationship;
 	}
 
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(age, name, relationship, userId);
+		return Objects.hash(age, name, relationship);
 	}
 
 	@Override
@@ -66,16 +57,12 @@ public class NomineeDTO {
 			return false;
 		NomineeDTO other = (NomineeDTO) obj;
 		return Objects.equals(age, other.age) && Objects.equals(name, other.name)
-				&& Objects.equals(relationship, other.relationship) && Objects.equals(userId, other.userId);
+				&& Objects.equals(relationship, other.relationship);
 	}
 
 	@Override
 	public String toString() {
-		return "NomineeDTO [name=" + name + ", age=" + age + ", relationship=" + relationship + ", userId=" + userId
-				+ "]";
+		return "NomineeDTO [name=" + name + ", age=" + age + ", relationship=" + relationship + "]";
 	}
 
-	
-	
-	
 }

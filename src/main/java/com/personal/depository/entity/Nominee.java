@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "nominee")
 public class Nominee {
@@ -20,10 +22,11 @@ public class Nominee {
 	private String name;
 	private Integer age;
 	private String relationship;
-	
+
+	@JsonIgnore
 	@ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	public Nominee() {
 	}
@@ -100,7 +103,5 @@ public class Nominee {
 		return "Nominee [id=" + id + ", name=" + name + ", age=" + age + ", relationship=" + relationship + ", user="
 				+ user + "]";
 	}
-
-	
 
 }

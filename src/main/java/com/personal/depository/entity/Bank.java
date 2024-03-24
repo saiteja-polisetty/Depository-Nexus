@@ -75,6 +75,4 @@ public class Bank {
 		return "Bank [id=" + id + ", bankName=" + bankName + ", branch=" + branch + "]";
 	}
 
-	
-
 }

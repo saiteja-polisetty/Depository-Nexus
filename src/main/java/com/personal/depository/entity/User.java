@@ -8,9 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-
-
 @Entity
 @Table(name = "user_details")
 public class User {
@@ -21,9 +18,10 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
-	
-	public User() {}
-	
+
+	public User() {
+	}
+
 	public User(Integer id, String username, String password, String email) {
 		super();
 		this.id = id;
@@ -32,13 +30,13 @@ public class User {
 		this.email = email;
 	}
 
-//	public int getId() {
-//		return id;
-//	}
-//
-//	public void setId(Integer id) {
-//		this.id = id;
-//	}
+	public int getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getUsername() {
 		return username;

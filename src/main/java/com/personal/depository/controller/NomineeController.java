@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,18 +29,22 @@ public class NomineeController {
 
 	@PostMapping("/add")
 	public ResponseEntity<Nominee> saveNominee(@RequestBody NomineeDTO nomineeDTO) {
-		Nominee nomineeSaved = nomineeService.saveNominee(nomineeDTO);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		Nominee nomineeSaved = nomineeService.saveNominee(nomineeDTO, username);
 		return new ResponseEntity<Nominee>(nomineeSaved, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/{userId}")
-	public ResponseEntity<List<Nominee>> getNominees(@PathVariable Integer userId) throws DepositoryException {
-		List<Nominee> nomineesList = nomineeService.getNomineesForUser(userId);
+	@GetMapping()
+	public ResponseEntity<List<Nominee>> getNominees() throws DepositoryException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		List<Nominee> nomineesList = nomineeService.getNomineesForUser(username);
 		return new ResponseEntity<List<Nominee>>(nomineesList, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{nomineeId}")
-	public ResponseEntity<String> deleteNominee(@PathVariable Integer nomineeId) throws DepositoryException{
+	public ResponseEntity<String> deleteNominee(@PathVariable Integer nomineeId) throws DepositoryException {
 		nomineeService.deleteNominee(nomineeId);
 		return new ResponseEntity<String>("Nominee deleted successfully..!!", HttpStatus.OK);
 	}
