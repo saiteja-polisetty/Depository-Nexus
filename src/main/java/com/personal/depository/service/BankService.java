@@ -31,7 +31,7 @@ public class BankService {
 		if(banksList.isEmpty())
 			throw new DepositoryException("No Banks Found, Please request Admin to support");
 		
-		return bankRepository.findAll();
+		return banksList;
 	}
 
 }
